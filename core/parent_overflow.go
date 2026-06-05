@@ -12,3 +12,17 @@ func ParentOverflow(
 		rightChild,
 	)
 }
+
+func HandleParentOverflow(
+	parent *Page,
+	sibling *Page,
+) (
+	InternalSplitResult,
+	bool,
+) {
+
+	return InternalSplit(
+		parent,
+		sibling,
+	)
+}

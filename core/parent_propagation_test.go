@@ -76,9 +76,13 @@ func TestLeafSplitCanBeInsertedIntoParent(
 		t.Fatal()
 	}
 
-	if InternalEntryCount(
-		&parent,
-	) == 0 {
+	entry, ok := ReadInternalEntry(&parent, 0)
+
+	if !ok {
+		t.Fatal()
+	}
+
+	if len(entry.Key) == 0 {
 		t.Fatal()
 	}
 }

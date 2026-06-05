@@ -1,41 +1,43 @@
 package core
 
 import (
-        "fmt"
-        "testing"
+	"fmt"
+	"testing"
 )
 
 func TestDeepTreeGrowth(
-        t *testing.T,
+	t *testing.T,
 ) {
 
-        pager := NewPager()
+	pager := NewPager()
 
-        var root Page
+	var root Page
 
-        InitPage(
-                &root,
-                1,
-        )
+	InitPage(
+		&root,
+		1,
+	)
 
-        pager.Add(
-                &root,
-        )
+	pager.Add(
+		&root,
+	)
 
-        for i := 0; i < 5000; i++ {
+	for i := 0; i < 5000; i++ {
 
-                key :=
-                        []byte(
-                                fmt.Sprintf(
-                                        "key-%05d",
-                                        i,
-                                ),
-                        )
+		key :=
+			[]byte(
+				fmt.Sprintf(
+					"key-%05d",
+					i,
+				),
+			)
 
-                _,
-                        key
-
-                _,
-                        pager
-        }
+		if !LeafInsert(
+			&root,
+			key,
+			[]byte("value"),
+		) {
+			break
+		}
+	}
 }

@@ -1,5 +1,6 @@
 package core
 
 type BTreeInsertResult struct {
-	Split bool
+	Split        bool
+	SeparatorKey []byte
 }

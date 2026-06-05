@@ -11,13 +11,13 @@ const (
 
 	MetaSize = 64
 
-	offMetaMagic      = 0
-	offMetaVersion    = 8
-	offMetaRootPageID = 16
-	offMetaFreelistID = 24
-	offMetaLastPageID = 32
-	offMetaTXID       = 40
-	offMetaCRC32      = 48
+	offMetaMagic      = HeaderSize + 0
+	offMetaVersion    = HeaderSize + 8
+	offMetaRootPageID = HeaderSize + 16
+	offMetaFreelistID = HeaderSize + 24
+	offMetaLastPageID = HeaderSize + 32
+	offMetaTXID       = HeaderSize + 40
+	offMetaCRC32      = HeaderSize + 48
 )
 
 type Meta struct {
@@ -75,7 +75,7 @@ func UpdateMetaCRC(
 
 	crc :=
 		crc32.ChecksumIEEE(
-			p.Data[:48],
+			p.Data[offMetaMagic:offMetaCRC32],
 		)
 
 	binary.LittleEndian.PutUint32(
@@ -96,7 +96,7 @@ func ValidateMeta(
 
 	crc :=
 		crc32.ChecksumIEEE(
-			p.Data[:48],
+			p.Data[offMetaMagic:offMetaCRC32],
 		)
 
 	stored :=

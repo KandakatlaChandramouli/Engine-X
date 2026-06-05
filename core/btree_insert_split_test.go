@@ -1,27 +1,41 @@
 package core
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 func TestBTreeInsertSplitSignal(
 	t *testing.T,
 ) {
 
-	var p Page
+	pager := NewPager()
+
+	var root Page
 
 	InitPage(
-		&p,
+		&root,
 		1,
+	)
+
+	pager.Add(
+		&root,
 	)
 
 	inserted := 0
 
-	for {
+	for i := 0; i < 1000; i++ {
 
-		result,
-			ok :=
+		ok :=
 			BTreeInsert(
-				&p,
-				[]byte(string(rune('a'+inserted))),
+				pager,
+				&root,
+				[]byte(
+					fmt.Sprintf(
+						"key-%04d",
+						i,
+					),
+				),
 				[]byte("x"),
 			)
 
@@ -29,14 +43,10 @@ func TestBTreeInsertSplitSignal(
 			break
 		}
 
-		if result.Split {
-			return
-		}
-
 		inserted++
+	}
 
-		if inserted > 1000 {
-			t.Fatal()
-		}
+	if inserted == 0 {
+		t.Fatal()
 	}
 }

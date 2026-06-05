@@ -5,18 +5,23 @@ import "testing"
 func TestBTreeInsert(
 	t *testing.T,
 ) {
+	pager := NewPager()
 
-	var p Page
+	var root Page
 
 	InitPage(
-		&p,
+		&root,
 		1,
 	)
 
-	result,
-		ok :=
+	pager.Add(
+		&root,
+	)
+
+	ok :=
 		BTreeInsert(
-			&p,
+			pager,
+			&root,
 			[]byte("a"),
 			[]byte("1"),
 		)
@@ -25,15 +30,11 @@ func TestBTreeInsert(
 		t.Fatal()
 	}
 
-	if result.Split {
-		t.Fatal()
-	}
-
 	k,
 		v,
 		ok :=
 		Get(
-			&p,
+			&root,
 			0,
 		)
 

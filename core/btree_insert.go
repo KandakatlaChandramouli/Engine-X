@@ -1,29 +1,34 @@
 package core
 
 func BTreeInsert(
-	p *Page,
+	pager *Pager,
+	root *Page,
 	key []byte,
 	value []byte,
-) (
-	BTreeInsertResult,
-	bool,
-) {
+) bool {
 
-	ok :=
-		LeafInsert(
-			p,
+	result,
+		ok :=
+		InsertRecursive(
+			pager,
+			PageID(root),
 			key,
 			value,
 		)
 
 	if !ok {
-
-		return BTreeInsertResult{
-			Split: true,
-		}, true
+		return false
 	}
 
-	return BTreeInsertResult{
-		Split: false,
-	}, true
+	if result.Split {
+
+		if !HandleRootSplit(
+			root,
+			result,
+		) {
+			return false
+		}
+	}
+
+	return true
 }

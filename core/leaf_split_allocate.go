@@ -8,6 +8,11 @@ func AllocateLeafSibling(
 	bool,
 ) {
 
+	if _, ok := pager.Get(pageID); ok {
+		return nil,
+			false
+	}
+
 	var sibling Page
 
 	InitPage(

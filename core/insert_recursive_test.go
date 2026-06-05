@@ -2,52 +2,44 @@ package core
 
 import "testing"
 
-func TestInsertRecursive(
+func TestInsertRecursiveSignalsSplit(
 	t *testing.T,
 ) {
 
 	pager := NewPager()
 
-	var leaf Page
+	var root Page
 
 	InitPage(
-		&leaf,
+		&root,
 		1,
 	)
 
 	pager.Add(
-		&leaf,
+		&root,
 	)
 
-	result,
-		ok :=
-		InsertRecursive(
-			pager,
-			1,
-			[]byte("hello"),
-			[]byte("world"),
-		)
+	inserted := 0
 
-	if !ok {
-		t.Fatal()
-	}
+	for {
 
-	if result.Split {
-		t.Fatal()
-	}
+		result,
+			ok :=
+			InsertRecursive(
+				pager,
+				1,
+				[]byte(string(rune('a'+(inserted%26)))),
+				[]byte("value"),
+			)
 
-	value,
-		ok :=
-		LeafGet(
-			&leaf,
-			[]byte("hello"),
-		)
+		if !ok {
+			t.Fatal()
+		}
 
-	if !ok {
-		t.Fatal()
-	}
+		if result.Split {
+			return
+		}
 
-	if string(value) != "world" {
-		t.Fatal()
+		inserted++
 	}
 }

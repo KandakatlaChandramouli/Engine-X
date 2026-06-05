@@ -8,21 +8,24 @@ func TestPromoteRoot(
 
 	var root Page
 
-	InitInternalPage(
+	InitPage(
 		&root,
-		10,
+		99,
 	)
 
-	SetLeftChild(
-		&root,
-		1,
-	)
+	ok :=
+		PromoteRoot(
+			&root,
+			1,
+			2,
+			[]byte("m"),
+		)
 
-	if !InternalInsert(
-		&root,
-		[]byte("m"),
-		2,
-	) {
+	if !ok {
+		t.Fatal()
+	}
+
+	if PageType(&root) != PageTypeInternal {
 		t.Fatal()
 	}
 

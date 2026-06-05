@@ -29,14 +29,29 @@ func TestDuplicateKeyRejected(
 		t.Fatal()
 	}
 
-	value,
-		ok :=
-		Get(
+	pos :=
+		LeafSearch(
 			&page,
 			[]byte("alpha"),
 		)
 
+	if pos < 0 {
+		t.Fatal()
+	}
+
+	key,
+		value,
+		ok :=
+		Get(
+			&page,
+			uint16(pos),
+		)
+
 	if !ok {
+		t.Fatal()
+	}
+
+	if string(key) != "alpha" {
 		t.Fatal()
 	}
 

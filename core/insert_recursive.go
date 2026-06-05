@@ -35,11 +35,14 @@ func InsertRecursive(
 			true
 	}
 
+	siblingID :=
+		pager.AllocatePageID()
+
 	sibling,
 		ok :=
 		AllocateLeafSibling(
 			pager,
-			uint64(len(pager.pages)+1),
+			siblingID,
 		)
 
 	if !ok {

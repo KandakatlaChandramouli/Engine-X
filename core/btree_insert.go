@@ -16,7 +16,14 @@ func BTreeInsert(
 			value,
 		)
 
+	if !ok {
+
+		return BTreeInsertResult{
+			Split: true,
+		}, true
+	}
+
 	return BTreeInsertResult{
 		Split: false,
-	}, ok
+	}, true
 }

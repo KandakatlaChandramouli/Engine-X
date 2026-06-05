@@ -111,7 +111,7 @@ func Insert(
 	)
 
 	slotPos :=
-		HeaderSize + int(slotCount)*SlotSize
+		SlotBase(p) + int(slotCount)*SlotSize
 
 	binary.LittleEndian.PutUint16(
 		p.Data[slotPos:slotPos+2],

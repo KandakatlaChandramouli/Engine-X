@@ -21,7 +21,7 @@ func Get(
 	}
 
 	slotPos :=
-		HeaderSize +
+		SlotBase(p) +
 			int(slot)*SlotSize
 
 	payloadOffset :=

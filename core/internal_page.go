@@ -3,6 +3,8 @@ package core
 import "encoding/binary"
 
 const (
+	InternalHeaderSize = HeaderSize + 8
+
 	offLeftChild = HeaderSize
 )
 

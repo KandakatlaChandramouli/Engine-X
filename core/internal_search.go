@@ -15,15 +15,18 @@ func InternalSearch(
 		)
 
 	if idx < 0 {
-		idx = -(idx + 1)
 
-		if idx >= int(
-			PageSlotCount(
+		insertPos :=
+			-(idx + 1)
+
+		if insertPos == 0 {
+
+			return LeftChild(
 				p,
-			),
-		) {
-			idx--
+			), true
 		}
+
+		idx = insertPos - 1
 	}
 
 	e,

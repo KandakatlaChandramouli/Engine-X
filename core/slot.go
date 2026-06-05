@@ -15,7 +15,7 @@ func ReadSlot(
 ) Slot {
 
 	slotPos :=
-		HeaderSize +
+		SlotBase(p) +
 			int(index)*SlotSize
 
 	return Slot{
@@ -41,7 +41,7 @@ func WriteSlot(
 ) {
 
 	slotPos :=
-		HeaderSize +
+		SlotBase(p) +
 			int(index)*SlotSize
 
 	binary.LittleEndian.PutUint16(

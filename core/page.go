@@ -51,6 +51,11 @@ func InitPage(p *Page, id uint64) {
 		p.Data[offFlags:offFlags+2],
 		0,
 	)
+
+	SetPageType(
+		p,
+		PageTypeLeaf,
+	)
 }
 
 func PageID(p *Page) uint64 {

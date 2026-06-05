@@ -64,6 +64,8 @@ func InitMeta(
 		0,
 	)
 
+	SetPageType(p, PageTypeMeta)
+
 	UpdateMetaCRC(p)
 }
 

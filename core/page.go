@@ -152,3 +152,35 @@ func Insert(
 
 	return true
 }
+
+const (
+	PageTypeMeta uint16 = 1
+
+	PageTypeFreelist uint16 = 2
+
+	PageTypeLeaf uint16 = 3
+
+	PageTypeInternal uint16 = 4
+
+	PageTypeOverflow uint16 = 5
+)
+
+func SetPageType(
+	p *Page,
+	typ uint16,
+) {
+
+	binary.LittleEndian.PutUint16(
+		p.Data[offFlags:offFlags+2],
+		typ,
+	)
+}
+
+func PageType(
+	p *Page,
+) uint16 {
+
+	return binary.LittleEndian.Uint16(
+		p.Data[offFlags : offFlags+2],
+	)
+}

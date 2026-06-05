@@ -2,7 +2,7 @@ package core
 
 import "testing"
 
-func TestAllocateLeafSibling(
+func TestAllocateLeafSiblingRejectsDuplicateID(
 	t *testing.T,
 ) {
 
@@ -19,21 +19,18 @@ func TestAllocateLeafSibling(
 		t.Fatal()
 	}
 
-	if PageID(sibling) != 99 {
+	if sibling == nil {
 		t.Fatal()
 	}
 
-	found,
-		ok :=
-		pager.Get(
+	_,
+		ok =
+		AllocateLeafSibling(
+			pager,
 			99,
 		)
 
-	if !ok {
-		t.Fatal()
-	}
-
-	if PageID(found) != 99 {
+	if ok {
 		t.Fatal()
 	}
 }

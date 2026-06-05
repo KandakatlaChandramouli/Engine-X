@@ -37,6 +37,11 @@ func TestInsertRecursiveSignalsSplit(
 		}
 
 		if result.Split {
+
+			if result.RightPageID == 0 {
+				t.Fatal()
+			}
+
 			return
 		}
 

@@ -26,19 +26,19 @@ func InsertRecursive(
 	leaf :=
 		path.Pages[len(path.Pages)-1]
 
-	ok =
-		LeafInsert(
-			leaf,
-			key,
-			value,
-		)
-
-	if ok {
+	if LeafInsert(
+		leaf,
+		key,
+		value,
+	) {
 		return InsertRecursiveResult{},
 			true
 	}
 
 	return InsertRecursiveResult{
 		Split: true,
+		RightPageID: uint64(
+			len(pager.pages) + 1,
+		),
 	}, true
 }

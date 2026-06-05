@@ -35,10 +35,33 @@ func InsertRecursive(
 			true
 	}
 
+	sibling,
+		ok :=
+		AllocateLeafSibling(
+			pager,
+			uint64(len(pager.pages)+1),
+		)
+
+	if !ok {
+		return InsertRecursiveResult{},
+			false
+	}
+
+	split,
+		ok :=
+		LeafSplit(
+			leaf,
+			sibling,
+		)
+
+	if !ok {
+		return InsertRecursiveResult{},
+			false
+	}
+
 	return InsertRecursiveResult{
-		Split: true,
-		RightPageID: uint64(
-			len(pager.pages) + 1,
-		),
+		Split:        true,
+		SeparatorKey: split.SeparatorKey,
+		RightPageID:  PageID(sibling),
 	}, true
 }

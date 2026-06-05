@@ -2,35 +2,38 @@ Phase 8 - Root Promotion
 
 Goal
 ----
-Create a new root when the existing root splits.
+Convert first leaf split into a real tree.
 
 Flow
 ----
-Root Leaf Full
+Leaf full
     ->
-LeafSplit
+Leaf split
     ->
-Create Internal Root
+Allocate right leaf
     ->
-Insert Separator Key
+Create root
     ->
-Point To Left/Right Children
+Root.LeftChild = left leaf
+    ->
+Insert separator -> right leaf
+    ->
+Meta.RootPageID = root
 
 Result
 ------
-Tree height becomes 2.
+        Root
+       /    \
+   LeafA   LeafB
 
-Requirements
-------------
-- Preserve existing root page.
-- Allocate new root page.
-- Update meta root page id.
-- Support future recursive promotion.
+Output
+------
+PromoteRoot()
 
 Future
 ------
 Phase 9:
-Internal page split propagation.
+Recursive split propagation.
 
 Phase 10:
-Recursive B+Tree growth.
+Full B+Tree insert path.

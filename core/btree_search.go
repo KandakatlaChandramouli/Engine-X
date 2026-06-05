@@ -20,6 +20,24 @@ func BTreeSearch(
 			false
 	}
 
-	return page,
-		true
+	if PageType(page) != PageTypeInternal {
+		return page,
+			true
+	}
+
+	childID,
+		ok :=
+		InternalSearch(
+			page,
+			key,
+		)
+
+	if !ok {
+		return nil,
+			false
+	}
+
+	return pager.Get(
+		childID,
+	)
 }

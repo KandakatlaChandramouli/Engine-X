@@ -1,15 +1,15 @@
 package storage
 
-type Flusher struct {
-	wal WAL
+type BackgroundFlusher struct {
+	dpt *DirtyPageTable
 }
 
-func NewFlusher(w WAL) *Flusher {
-	return &Flusher{
-		wal: w,
+func NewBackgroundFlusher(dpt *DirtyPageTable) *BackgroundFlusher {
+	return &BackgroundFlusher{
+		dpt: dpt,
 	}
 }
 
-func (f *Flusher) FlushPage(pageLSN uint64) error {
-	return f.wal.Flush(pageLSN)
+func (f *BackgroundFlusher) Flush() []uint64 {
+	return FlushCandidates(f.dpt)
 }

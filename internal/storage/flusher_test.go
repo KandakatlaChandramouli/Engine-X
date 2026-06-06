@@ -2,27 +2,44 @@ package storage
 
 import "testing"
 
-type MockWAL struct {
-	Flushed uint64
-}
+func TestBackgroundFlusher(t *testing.T) {
+	dpt := NewDirtyPageTable()
 
-func (m *MockWAL) Flush(lsn uint64) error {
-	m.Flushed = lsn
-	return nil
-}
+	dpt.Add(1, 100)
+	dpt.Add(2, 200)
 
-func TestFlushBeforePage(t *testing.T) {
-	w := &MockWAL{}
+	f := NewBackgroundFlusher(dpt)
 
-	f := NewFlusher(w)
+	pages := f.Flush()
 
-	err := f.FlushPage(100)
-
-	if err != nil {
+	if len(pages) != 2 {
 		t.Fatal()
 	}
+}
 
-	if w.Flushed != 100 {
+func TestBackgroundFlusherEmpty(t *testing.T) {
+	dpt := NewDirtyPageTable()
+
+	f := NewBackgroundFlusher(dpt)
+
+	pages := f.Flush()
+
+	if len(pages) != 0 {
+		t.Fatal()
+	}
+}
+
+func TestBackgroundFlusherAfterRemove(t *testing.T) {
+	dpt := NewDirtyPageTable()
+
+	dpt.Add(1, 100)
+	dpt.Remove(1)
+
+	f := NewBackgroundFlusher(dpt)
+
+	pages := f.Flush()
+
+	if len(pages) != 0 {
 		t.Fatal()
 	}
 }

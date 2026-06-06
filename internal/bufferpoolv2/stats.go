@@ -1,24 +1,29 @@
 package bufferpoolv2
 
+import "sync/atomic"
+
 type Stats struct {
-        Hits   int
-        Misses int
+	Hits   int64
+	Misses int64
 }
 
 func (s *Stats) RecordHit() {
-        s.Hits++
+	atomic.AddInt64(&s.Hits, 1)
 }
 
 func (s *Stats) RecordMiss() {
-        s.Misses++
+	atomic.AddInt64(&s.Misses, 1)
 }
 
 func (s *Stats) HitRate() float64 {
-        total := s.Hits + s.Misses
+	hits := atomic.LoadInt64(&s.Hits)
+	misses := atomic.LoadInt64(&s.Misses)
 
-        if total == 0 {
-                return 0
-        }
+	total := hits + misses
 
-        return float64(s.Hits) / float64(total)
+	if total == 0 {
+		return 0
+	}
+
+	return float64(hits) / float64(total)
 }

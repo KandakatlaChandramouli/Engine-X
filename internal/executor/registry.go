@@ -4,6 +4,7 @@ type Engine struct {
         Manager *TxnManager
         Table   *TransactionTable
         WAL     *WAL
+        Locks   *LockManager
 }
 
 func NewEngine() *Engine {
@@ -11,6 +12,7 @@ func NewEngine() *Engine {
                 Manager: NewTxnManager(),
                 Table:   NewTransactionTable(),
                 WAL:     NewWAL(),
+                Locks:   NewLockManager(),
         }
 }
 

@@ -1,7 +1,7 @@
 package executor
 
 func (e *Engine) Acquire(txn uint64, resource string) bool {
-        return e.Locks.Acquire(txn, resource)
+        return e.Locks.AcquireExclusive(txn, resource)
 }
 
 func (e *Engine) Release(txn uint64, resource string) {

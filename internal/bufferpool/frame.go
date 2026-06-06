@@ -8,6 +8,8 @@ type Frame struct {
         Pin    uint32
         Used   bool
 
+        LSN uint64
+
         Data []byte
 
         DB *core.DB

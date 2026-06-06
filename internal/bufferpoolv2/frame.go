@@ -18,3 +18,7 @@ func (f *Frame) Unpin() {
 func (f *Frame) Pinned() bool {
         return f.PinCount > 0
 }
+
+func (f *Frame) Evictable() bool {
+        return !f.Pinned()
+}
